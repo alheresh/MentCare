@@ -1,0 +1,3 @@
+patientId,nhNumber,name,address,city,dob,contact,risk,sectioned,sectionedDate,reviewDate
+PAT001,NH123456789,John Doe,123 Main St,Edinburgh,1980-05-15,555-0123,LOW,false,,
+PAT002,NH987654321,Jane Smith,456 Oak Ave,Glasgow,1975-08-22,555-0456,HIGH,true,2024-01-15,2025-11-23

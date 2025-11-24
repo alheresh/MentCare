@@ -1,0 +1,5 @@
+userId,username,password,role,fullName
+USER001,doctor1,password123,CLINICAL_STAFF,Dr. John Smith
+USER002,admin1,password123,ADMINISTRATOR,Admin User
+USER003,mha1,password123,MHA_ADMINISTRATOR,MHA Manager
+USER004,sysadmin,password123,SYSTEM_ADMIN,System Administrator

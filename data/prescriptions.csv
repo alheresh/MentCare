@@ -1,0 +1,3 @@
+prescriptionId,patientId,drugName,dosage,frequency,startDate,endDate,prescriberId,isRepeat,comments
+PRES001,PAT001,Sertraline,50mg,Once daily,2024-01-10,2024-04-10,USER001,false,Monitor for side effects
+PRES002,PAT002,Lithium,300mg,Twice daily,2024-01-12,2024-04-12,USER001,true,Regular blood tests required
