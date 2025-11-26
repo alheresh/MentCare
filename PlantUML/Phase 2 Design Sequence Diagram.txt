@@ -1,0 +1,25 @@
+@startuml
+!theme plain
+
+actor User <<Human>>
+participant "LoginGUI" as LoginGUI
+participant "UserData" as UserData
+participant "Utils" as Utils
+
+User -> LoginGUI : Enter username, password
+activate LoginGUI
+activate  UserData
+LoginGUI -> UserData: authenticate(username, password)
+activate  Utils
+UserData -> Utils: read("users data")
+UserData  -> UserData --: validate credentials
+deactivate Utils
+alt Authentication Successful
+    UserData --> LoginGUI: user information
+    LoginGUI --> User: load user interface
+else Authentication Failed
+  UserData --> LoginGUI: null
+  LoginGUI --> User: Show error message
+end
+deactivate LoginGUI
+@enduml

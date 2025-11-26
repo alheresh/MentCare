@@ -1,0 +1,50 @@
+@startuml
+!theme plain
+left to right direction
+
+package "Mentcare.Utils" as Mentcare.Utils { 
+  [Utils]
+}
+package "Mentcare.Data" as Mentcare.Data {
+  [UserData]
+  [PatientData]
+  [ConsultationData]
+  [PrescriptionData]
+}
+package "Mentcare.GUI" as Mentcare.GUI {
+  [AppointmentGUI]
+  [ConsultationGUI] 
+  [PatientManagementGUI] 
+   [PrescriptionGUI] 
+   [UserManagementGUI] 
+   [LoginGUI] 
+   [ReportsGUI] 
+    [SystemSettingsGUI] 
+}
+' Application to Data Access Layer relationships
+package "Mentcare.Models" as Mentcare.Models{  
+  [UserModel] 
+  [PatientModel]
+  [ConsultationModel]
+  [PrescriptionModel]
+}
+
+' Data Access to Utility relationships
+Mentcare.Utils -- UserData 
+Mentcare.Utils -- PatientData 
+Mentcare.Utils -- ConsultationData 
+Mentcare.Utils --> PrescriptionData 
+
+UserModel --  Mentcare.Utils
+PatientModel --Mentcare.Utils
+ConsultationModel -- Mentcare.Utils
+PrescriptionModel --  Mentcare.Utils
+
+AppointmentGUI -- PatientModel
+UserManagementGUI -- UserModel
+LoginGUI -- UserModel
+ConsultationGUI -- ConsultationModel
+PatientManagementGUI -- PatientModel
+PrescriptionGUI -- PrescriptionModel
+ReportsGUI -- Mentcare.Models
+@enduml

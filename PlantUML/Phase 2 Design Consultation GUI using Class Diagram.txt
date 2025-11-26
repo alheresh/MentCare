@@ -1,0 +1,57 @@
+@startuml
+!theme plain
+
+package "mentcare.gui" {
+  class ConsultationPanel {
+    - currentUser: User
+    - patientDAO: PatientDAO
+    - consultationDAO: ConsultationDAO
+    - consultationTable: JTable
+    - tableModel: DefaultTableModel
+    --
+    + ConsultationPanel(user: User)
+    + refreshConsultationData(): void
+    - initializeUI(): void
+    - loadConsultationData(): void
+    - showConsultationDetails(consultation: Consultation): void
+  }
+
+  class ConsultationDialog {
+    - consultation: Consultation
+    - currentUser: User
+    - parentPanel: ConsultationPanel
+    - consultationDAO: ConsultationDAO
+    - patientDAO: PatientDAO
+    --
+    + ConsultationDialog(consultation: Consultation, user: User, parent: ConsultationPanel)
+    - initializeUI(): void
+    - populateFields(): void
+    - loadPatients(): void
+  }
+
+  class MainFrame {
+    - currentUser: User
+    - tabbedPane: JTabbedPane
+    --
+    + MainFrame(user: User)
+    - initializeUI(): void
+    - createMenuBar(): JMenuBar
+  }
+
+  class LoginFrame {
+    - usernameField: JTextField
+    - passwordField: JPasswordField
+    - userDAO: UserDAO
+    --
+    + LoginFrame()
+    - initializeUI(): void
+  }
+}
+
+
+
+ LoginFrame ..> MainFrame 
+MainFrame ..> ConsultationPanel 
+ConsultationPanel ..> ConsultationDialog 
+
+@enduml

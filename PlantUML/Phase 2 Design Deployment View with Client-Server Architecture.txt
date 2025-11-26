@@ -1,0 +1,15 @@
+@startuml MentCare System Organization
+rectangle "MentCare System" {
+node "MentCare Client 1" as client1
+node "MentCare Client 2" as client2  
+node "MentCare Client 3" as client3
+node "Centralized MentCare Server" as server 
+cloud "Secure Network" as network
+node "database" as db 
+client1 -- network 
+client2 -- network   
+client3 -- network 
+network -- server 
+server -- db 
+}
+@enduml

@@ -1,0 +1,38 @@
+
+@startuml
+!theme plain
+
+actor "Clinical Staff" as Staff
+participant "ConsultationPanel" as Panel
+participant "ConsultationDialog" as Dialog
+participant "ConsultationDAO" as ConsultationDAO
+participant "PatientDAO" as PatientDAO
+participant "CSVUtils" as CSV
+activate Panel
+Staff -> Panel: Click "Add Consultation"
+Panel -> Dialog: new ConsultationDialog()
+activate Dialog
+Dialog -> PatientDAO: getAllPatients()
+activate CSV
+activate PatientDAO
+activate ConsultationDAO  
+PatientDAO -> CSV: readCSV("data/patients.csv")
+CSV --> PatientDAO: patient data
+PatientDAO --> Dialog: List<Patient>
+Dialog --> Staff: Show consultation form
+deactivate PatientDAO 
+Staff -> Dialog: Fill form and click "Save"
+Dialog -> Dialog: Validate input
+Dialog -> Dialog: Create Consultation object
+Dialog -> ConsultationDAO: saveConsultation(consultation)
+ConsultationDAO -> CSV: readCSV("data/consultations.csv")
+CSV --> ConsultationDAO: existing consultations
+ConsultationDAO -> ConsultationDAO: add/update consultation
+ConsultationDAO -> CSV: writeCSV("data/consultations.csv")
+ConsultationDAO --> Dialog: Success
+deactivate ConsultationDAO 
+deactivate CSV
+Dialog -> Panel: refreshConsultationData()
+Panel --> Staff: Updated consultation list
+deactivate Panel
+@enduml

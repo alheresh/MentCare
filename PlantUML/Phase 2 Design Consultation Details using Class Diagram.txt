@@ -1,0 +1,92 @@
+@startuml
+!theme plain
+
+package "mentcare.models" {
+  class Patient {
+    - patientId: String
+    - nationalHealthNumber: String
+    - name: String
+    - address: String
+    - dateOfBirth: LocalDate
+    - contactDetails: String
+    - registeredPractice: String
+    - nextOfKin: String
+    - riskAssessment: RiskLevel
+    - conditions: List<String>
+    - isSectioned: boolean
+    - sectionedDate: LocalDate
+    - reviewDate: LocalDate
+    --
+    + Patient(patientId, nhNumber, name, address, dob, contact)
+    + getAge(): int
+    + addCondition(condition: String)
+    + removeCondition(condition: String)
+  }
+  class Consultation {
+    - consultationId: String
+    - patientId: String
+    - dateTime: LocalDateTime
+    - staffIds: List<String>
+    - subjectiveImpressions: String
+    - diagnoses: List<String>
+    - prescriptions: List<Prescription>
+    - referrals: List<String>
+    - recordUpdated: boolean
+    --
+    + Consultation(consultationId, patientId, dateTime)
+    + addStaffMember(staffId: String)
+    + addDiagnosis(diagnosis: String)
+    + addPrescription(prescription: Prescription)
+    + addReferral(referral: String)
+  }
+  class User {
+    ..User class assumed from references..
+    - userId: String
+    - username: String
+    - password: String
+    - fullName: String
+    - role: UserRole
+  }
+}
+package "mentcare.dao" {
+  class PatientDAO {
+    - PATIENTS_CSV: String
+    - DATE_FORMATTER: DateTimeFormatter
+    --
+    + getAllPatients(): List<Patient>
+    + savePatient(patient: Patient): void
+    + findPatientById(patientId: String): Patient
+    - saveAllPatients(patients: List<Patient>): void
+  }
+
+  class ConsultationDAO {
+    - CONSULTATIONS_CSV: String
+    - DATE_FORMATTER: DateTimeFormatter
+    --
+    + getAllConsultations(): List<Consultation>
+    + getConsultationsByPatient(patientId: String): List<Consultation>
+    + getConsultationById(consultationId: String): Consultation
+    + saveConsultation(consultation: Consultation): void
+    + deleteConsultation(consultationId: String): void
+    - saveAllConsultations(consultations: List<Consultation>): void
+  }
+  class UserDAO {
+    ..UserDAO class assumed from references..
+    + authenticate(username: String, password: String): User
+  }
+}
+package "mentcare.utils" {
+  class CSVUtils {
+    ..
+    + readCSV(filename: String): List<String[]>
+    + writeCSV(filename: String, data: List<String[]>): void
+    + appendToCSV(filename: String, row: String[]): void
+  }
+}
+ConsultationDAO ..> CSVUtils : uses
+PatientDAO ..> CSVUtils : uses
+UserDAO ..> CSVUtils : uses
+Patient ..> PatientDAO
+User ..> UserDAO
+Consultation ..> ConsultationDAO
+@enduml

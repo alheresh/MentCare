@@ -1,0 +1,56 @@
+@startuml
+!theme plain
+package "Mentcare System Actors" {
+  class "User" <<(C,#00FF77) Actor>> {
+    - userId: String
+    - username: String
+    - password: String
+    - role: UserRole
+    - fullName: String
+    + login()
+    + logout()
+  }
+  class "Doctor" <<(C,#00FF77) Actor>> {
+    + prescribeMedication()
+    + diagnoseConditions()
+  }
+  class "Nurse" <<(C,#00FF77) Actor>> {
+    + recordObservations()
+    + administerMedication()
+  }
+  class "Receptionist" <<(C,#00FF77) Actor>> {
+    + manageAppointments()
+    + registerPatients()
+  }
+  
+  class "MHAManager" <<(C,#00FF77) Actor>> {
+    + overseeMHASections()
+    + generateMHALetters()
+  }
+  class "SystemAdmin" <<(C,#00FF77) Actor>> {
+    + manageUsers()
+    + configureSystem()
+  }
+    class "Patient" <<(C,#00FF77) Actor>> {
+    - nationalHealthNumber: String
+    - riskAssessment: RiskLevel
+    - isSectioned: boolean
+    - sectionedDate: LocalDate
+    + getAge(): int
+    - ViewInformation()
+    - RequestService()
+  }
+    class "Relative" <<(C,#00FF77) Actor>> {
+    - ViewInformation()
+    - RequestService()
+  }
+  ' Inheritance relationships
+  User <|-- MHAManager
+  User <|-- SystemAdmin
+  User <|-- Patient
+  User <|-- Relative
+  User <|-- Doctor
+  User <|-- Nurse
+  User <|-- Receptionist
+}
+@enduml

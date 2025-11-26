@@ -1,0 +1,15 @@
+@startuml
+node "Storage Server" {
+  artifact "users.csv" as Users
+  artifact "consultations.csv" as cons
+  artifact "patients.csv" as Patients
+  artifact "Data Files" as csv
+  artifact "Data Directory" as dir
+  database "File System" as fs
+  
+  csv --> dir
+  Users --> csv
+  cons --> csv
+  Patients --> csv
+  dir --> fs
+}

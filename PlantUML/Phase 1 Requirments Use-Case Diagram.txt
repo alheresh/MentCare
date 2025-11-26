@@ -1,0 +1,48 @@
+@startuml
+title Mentcare System – Use Case Diagram\n(Requirements  Phase)
+
+left to right direction
+
+actor "Patient" as patient
+actor "Relative" as relative
+actor "Doctor" as doctor
+actor "Nurse" as nurse
+actor "Medical Receptionist" as receptionist
+actor "IT Staff" as itstaff
+actor "Healthcare Manager" as manager
+actor "Admin Staff" as adminstaff
+
+rectangle "Mentcare System" {
+  (View own patient record) as UC_ViewInfo
+  (Assess patient) as UC_Assess
+  (Manage consultation) as UC_ManageConsultation
+  (Treat patient) as UC_Treat
+  (Coordinate consultation) as UC_Coordinate
+  (Manage appointments) as UC_ManageAppts
+  (Maintain system users & settings) as UC_MaintainSystem
+  (Obtain management information) as UC_ObtainMgmtInfo
+  (Generate reports) as UC_GenerateReports
+  (Preserve patient records) as UC_PreserveRecords
+  (Implement record-keeping procedures) as UC_ImplementProcedures
+
+}
+
+patient --> UC_ViewInfo
+relative --> UC_ViewInfo
+
+doctor --> UC_Assess
+doctor --> UC_ManageConsultation
+doctor --> UC_Treat
+
+nurse --> UC_Coordinate
+
+receptionist --> UC_ManageAppts
+
+itstaff --> UC_MaintainSystem
+
+manager --> UC_ObtainMgmtInfo
+
+adminstaff --> UC_GenerateReports
+adminstaff --> UC_PreserveRecords
+adminstaff --> UC_ImplementProcedures
+@enduml

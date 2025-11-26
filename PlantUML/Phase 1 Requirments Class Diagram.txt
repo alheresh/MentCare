@@ -1,0 +1,96 @@
+@startuml
+title Mentcare System – Domain Model (Requirements / Analysis Phase)\nLogical View – Static Structure (S + F)
+left to right direction
+skinparam monochrome true
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+' === Core Domain Entities (from the requirements text) ===
+class Patient {
+  patientId : String (NH number or generated PID)
+  name : String
+  address : String
+  dateOfBirth : Date
+  phone : String
+  nextOfKin : String
+  riskIndicator : RiskLevel <<self-harm / violence>>
+  isSectioned : Boolean
+  sectionStartDate : Date
+  sectionReviewDueDate : Date
+}
+class Clinician {
+  staffId : String
+  name : String
+  role : ClinicianRole <<Doctor | Nurse | Therapist>>
+}
+class Consultation {
+  consultationId : String
+  dateTime : DateTime
+  reasonForVisit : String
+  subjectiveNotes : Text
+  objectiveFindings : Text
+  assessment : Text
+  plan : Text
+  comments : Text
+  isUpdated : Boolean = false
+}
+class Diagnosis {
+  diagnosisDate : Date
+  conditionCode : String
+  conditionName : String
+  comments : Text
+}
+class Treatment {
+  treatmentDate : Date
+  treatmentType : String <<CBT | Medication | ...>>
+  details : Text
+}
+class Prescription {
+  prescriptionId : String
+  prescriptionDate : Date
+  medicationName : String
+  dosage : String
+  durationDays : Integer
+  isRepeatPrescription : Boolean
+  comments : Text
+}
+class Appointment {
+  appointmentId : String
+  appointmentDateTime : DateTime
+  clinic : String
+  attended : Boolean
+  missedReason : Text
+}
+class SectioningAssessment {
+  assessmentDate : Date
+  recommendation : DetentionDecision
+  detentionLocation : String
+  plannedReleaseDate : Date
+}
+' === Relationships – directly traceable to the requirements ===
+Clinician "1" --> "0..*" Appointment : books / attends >
+Patient "1" --> "0..*" Appointment : books / attends >
+Appointment "1" --> "0..*" Consultation : conducts
+
+Consultation "1" --> "0..*" Diagnosis : results in >
+Consultation "1" --> "0..*" Treatment : results in >
+Consultation "1" --> "0..*" Prescription : may generate >
+Consultation "1" --> "0..1" SectioningAssessment : may be subject to >
+' === Enumeration examples ===
+enum RiskLevel {
+  Low
+  Medium
+  High_SelfHarm
+  High_Violence
+}
+enum ClinicianRole {
+  Doctor
+  Nurse
+  Therapist
+}
+enum DetentionDecision {
+  Detain
+  Release
+  Extend
+}
+@enduml
